@@ -116,6 +116,22 @@ class DoubleLinkedList<T> implements LinkedList<T> {
     }
 
     prepend(value: T): void {
+        const newNode: Node<T> = {
+            value,
+        }
+
+        if(!this.head) {
+            this.head = newNode
+            this.tail = newNode
+            this.length++
+            return
+        }
+        this.head = {
+            value,
+            next: this.head
+        }
+        this.length++
+        return
     }
 
     remove(value: T): void {
