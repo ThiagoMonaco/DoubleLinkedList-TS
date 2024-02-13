@@ -50,7 +50,7 @@ class DoubleLinkedList<T> implements LinkedList<T> {
 
     insertAt(value: T, index: number): void {
         if(index >= this.length) {
-            if(this.length === 0) {
+            if(this.length === 0 && index === 0) {
                 this.append(value)
                 this.length++
                 return
@@ -158,6 +158,57 @@ class DoubleLinkedList<T> implements LinkedList<T> {
     }
 
     removeAt(index: number): void {
+        if(index >= this.length) {
+            if(this.length === 1) {
+                this.head = null
+                this.tail = null
+                this.length--
+                return
+            }
+            throw new Error("Index out of bounds")
+        }
+
+        if(index === 0) {
+            this.head = this.head.next
+            this.head.prev = null
+            this.length--
+            return
+        }
+
+        if (index === this.length - 1) {
+            this.tail = this.tail.prev
+            this.tail.next = null
+
+            this.length--
+            return
+        }
+
+        if(index > Math.ceil(this.length/2)) {
+            let current = this.tail
+            for(let i = this.length; i >= index; i--) {
+                if(i === index) {
+                    current.prev.next = current.next
+                    current.next.prev = current.prev
+                    current = null
+                    this.length--
+                    return
+                }
+                current = current.prev
+            }
+        }
+
+        let current = this.head
+
+        for (let i = 0; i <= index; i++) {
+            if(i === index) {
+                current.prev.next = current.next
+                current.next.prev = current.prev
+                current = null
+                this.length--
+                return
+            }
+            current = current.next
+        }
     }
 
 }

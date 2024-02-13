@@ -43,4 +43,9 @@ describe('insertAt', () => {
         list.insertAt(6, 3)
         expect(list.get(3)).toBe(6)
     });
+
+    it('should throw error when inserting out of bounds', () => {
+        const list = new DoubleLinkedList<Number>()
+        expect(() => list.insertAt(1, 10)).toThrowError("Index out of bounds")
+    });
 })
