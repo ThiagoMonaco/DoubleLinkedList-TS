@@ -135,6 +135,26 @@ class DoubleLinkedList<T> implements LinkedList<T> {
     }
 
     remove(value: T): void {
+        let current = this.head
+
+        while (current) {
+            if(current.value === value) {
+                if(!!current.prev) {
+                    current.prev.next = current.next
+                } else {
+                    this.head = current.next
+                }
+
+                if(!!current.next) {
+                    current.next.prev = current.prev
+                } else {
+                    this.tail = current.prev
+                }
+
+                this.length--
+            }
+            current = current.next
+        }
     }
 
     removeAt(index: number): void {
