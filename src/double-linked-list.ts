@@ -29,7 +29,7 @@ class DoubleLinkedList<T> implements LinkedList<T> {
     }
 
     get(index: number): T {
-        if(index > this.length) {
+        if(index >= this.length) {
             return null
         }
 
@@ -49,6 +49,70 @@ class DoubleLinkedList<T> implements LinkedList<T> {
     }
 
     insertAt(value: T, index: number): void {
+        if(index >= this.length) {
+            if(this.length === 0) {
+                this.append(value)
+                this.length++
+                return
+            }
+            throw new Error("Index out of bounds")
+        }
+
+        if(index === 0) {
+            this.head = {
+                value,
+                next: this.head
+            }
+            this.length++
+            return
+        }
+
+        if (index === this.length - 1) {
+            this.tail = {
+                value,
+                prev: this.tail
+            }
+
+            this.tail.prev.next = this.tail
+
+            this.length++
+            return
+        }
+
+        if(index > Math.ceil(this.length/2)) {
+            let current = this.tail
+            for(let i = this.length; i >= index; i--) {
+                if(i === index) {
+                  const oldNode:Node<T> = {
+                      value: current.value,
+                      next: current.next,
+                      prev: current
+                  }
+
+                  current.value = value
+                  current.next = oldNode
+                  this.length++
+                }
+            }
+            return
+        }
+
+        let current = this.head
+
+        for (let i = 0; i <= index; i++) {
+            if(i === index) {
+                const oldNode:Node<T> = {
+                    value: current.value,
+                    next: current.next,
+                    prev: current
+                }
+
+                current.value = value
+                current.next = oldNode
+                this.length++
+            }
+            current = current.next
+        }
     }
 
     prepend(value: T): void {
